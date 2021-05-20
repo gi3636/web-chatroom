@@ -1,7 +1,5 @@
 package com.example.chatroom.controller;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.example.chatroom.entity.LoginResult;
 import com.example.chatroom.entity.User;
 import com.example.chatroom.service.impl.LoginResultServiceImpl;
@@ -12,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 @Controller
 public class LoginController {
@@ -47,9 +44,9 @@ public class LoginController {
      * 跳转去首页
      * @return
      */
-    @RequestMapping(value = "/index",method = RequestMethod.GET)
+    @RequestMapping(value = "/chatroom",method = RequestMethod.GET)
     public String index(){
-        return "index";
+        return "chatroom";
     }
 
 

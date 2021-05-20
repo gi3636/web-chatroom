@@ -6,9 +6,7 @@
 
     <link rel="stylesheet" href="webjars/bootstrap/4.6.0/css/bootstrap.min.css"/>
     <script type="text/javascript" src="webjars/jquery/3.5.1/dist/jquery.min.js"></script>
-    <script type="text/javascript" src="webjars/jquery/3.5.1/dist/jquery.min.js"></script>
     <script type="text/javascript" src="webjars/bootstrap/4.6.0/css/bootstrap.min.css"></script>
-    <script type="text/javascript" src="jquery-validation-1.19.3/dist/jquery.validate.js"></script>
     <link rel="stylesheet" href="/fontawesome-free-5.11.2-web/css/all.css">
     <link rel="stylesheet" href="css/login.css">
 
@@ -67,7 +65,7 @@
                 if(result!=null){
                   console.log(JSON.stringify(result));
                     if (result['result']===true) {
-                        window.location.href = "/index";
+                        window.location.href = "/chatroom";
                     }else{
                         alert("登入失败");
                         $("#username").val("");
