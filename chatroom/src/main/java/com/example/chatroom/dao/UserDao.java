@@ -4,6 +4,9 @@ import com.example.chatroom.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
+import java.util.List;
+
 
 //CrudRepository：提供标准的创建，读取，更新和删除功能，
 // 其中包含诸如findOne().findAll()，save()，delete()等方法。
@@ -15,5 +18,8 @@ import org.springframework.stereotype.Repository;
 public interface UserDao extends JpaRepository<User,Integer> {
 
     User findUserByUsernameAndPassword(String username,String password);
+
+
+
 
 }

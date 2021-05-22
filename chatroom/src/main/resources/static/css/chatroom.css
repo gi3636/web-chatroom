@@ -17,32 +17,90 @@ img {
 }
 
 /*聊天框样式*/
-#item {
+#self_message .content,
+#received_message .content {
     position: relative;
-    width: 40%;
-    min-height: 50px;
-    background: rgb(41, 134, 241);
+    max-width: 40%;
+    min-height: 30px;
     border-radius: 5px;
-    line-height: 50px;
-    margin-left: 10px;
     word-break: break-word;
-    color: white;
     padding: 5px;
-    line-height: 18px;
+    line-height: 20px;
+    display: block;
 }
 
-#item::after {
+#received_message .content {
+    background: white;
+    color: black;
+    margin-left: 10px;
+}
+
+#self_message .content {
+    background: rgb(41, 134, 241);
+    color: white;
+    margin-right: 10px;
+}
+
+#self_message .content::after,
+#received_message .content::after {
     content: "";
     display: block;
     position: absolute;
     width: 0;
     height: 0;
     border: 8px solid transparent;
-    border-right-color: rgb(41, 134, 241);
     top: 15px;
-    left: -14px;
 }
 
+#received_message .content::after {
+    left: -14px;
+    border-right-color: white;
+}
+
+#self_message .content::after {
+    border-left-color: rgb(41, 134, 241);
+    right: -14px;
+}
+
+#self_message img,
+#received_message img {
+    margin-top: 2%;
+}
+
+#self_message .username,
+#received_message .username {
+    text-align: start;
+    font-size: small;
+    color: grey;
+    padding: 5px;
+}
+
+#received_message .username {
+    margin-left: 5px;
+}
+
+#self_message .username {
+    margin-right: 5px;
+}
+
+/*系统消息样式*/
+
+#system_message p {
+    margin: 5px;
+    font-size: small;
+    color: grey;
+}
+/* 时间消息的样式 */
+
+#time_message p {
+    margin: 0px;
+    font-size: small;
+    color: grey;
+}
+
+
+
+/*容器样式*/
 .row {
     padding: 0;
     margin: 0;
@@ -235,7 +293,7 @@ img {
 
 .chat-frame .chatroom-title .title-content {
     font-size: 30px;
-    padding-left: 70px;
+    padding-left: 18%;
     text-align: center;
     line-height: 93px;
     height: 10vh;
@@ -259,21 +317,27 @@ img {
 
 .chat-frame .chat-detail {
     width: 0%;
-    position: absolute;
-    top: 0px;
+    position: fixed;
+    top: 18%;
     right: 0px;
-    background: #000;
+    background: whitesmoke;
     word-break: break-all;
     transition: width 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) 0s;
-    height: 100%;
-    z-index: 100;
+    border-radius: 5px;
+    height: 27%;
+    z-index: 9988;
 }
 
 .chat-frame .chat-detail .user-detail {
-    background: whitesmoke;
+    overflow-x: hidden;
+    overflow-y: auto;
     height: 100%;
+    border-radius: 10px;
+    margin: 0;
+    background: whitesmoke;
     flex-direction: row;
 }
+
 
 .chat-frame .chat-detail .user-detail li {
     width: 0px;
@@ -307,11 +371,14 @@ img {
 }
 
 .chat-frame .chat-content {
+
+    overflow-x: hidden;
+    overflow-y: auto;
     height: 60vh;
 }
 
 .chat-frame .chat-content .chat li {
-    padding-top: 15px;
+    padding-top: 5px;
 }
 
 .chat-frame .chat-content .chat img {

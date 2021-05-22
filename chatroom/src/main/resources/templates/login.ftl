@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <title>FreeMarker</title>
-
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" href="webjars/bootstrap/4.6.0/css/bootstrap.min.css"/>
     <script type="text/javascript" src="webjars/jquery/3.5.1/dist/jquery.min.js"></script>
     <script type="text/javascript" src="webjars/bootstrap/4.6.0/css/bootstrap.min.css"></script>

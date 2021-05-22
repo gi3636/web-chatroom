@@ -36,4 +36,8 @@ public class LoginResult {
 
     @Column(name = "login_message")
     private String loginMessage;
+
+    @Column(name = "ip_addr")
+    private String ipAddr;	//ip地址
+    private String browser;	//使用浏览器
 }

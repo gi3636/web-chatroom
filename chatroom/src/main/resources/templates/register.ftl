@@ -5,7 +5,7 @@
     <title>Title</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <link rel="stylesheet" href="webjars/bootstrap/4.6.0/css/bootstrap.min.css"/>
     <script type="text/javascript" src="webjars/jquery/3.5.1/dist/jquery.min.js"></script>

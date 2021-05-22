@@ -12,7 +12,7 @@
 
 <head>
     <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <!-- Bootstrap CSS -->
 <#--    不用这个添加好友窗口跳不出来-->
@@ -23,6 +23,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/fontawesome-free-5.11.2-web/css/all.css">
     <link rel="stylesheet" href="css/chatroom.css">
+    <script src='/js/chatroom.js'></script>
 
 </head>
 
@@ -85,80 +86,62 @@
                                             </div>
                                             <div class="row ">
                                                 <div class="recent-message">1232345234343431232324343434</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="list-group-item list-group-item-action ">
-                                    <div class="row">
-                                        <div class="contact-img col-sm-2">
-                                            <img src="/img/WeChat Image_20210519080830.jpg" width="50px" height="50px" alt="">
-                                        </div>
-                                        <div class="col-sm-10">
-                                            <div class="row d-flex w-100 justify-content-between">
-                                                <div class="contact-title mb-1">标题测试2312432423434</div>
-                                                <small class="received-message-time">3 days ago</small>
-                                            </div>
-                                            <div class="row ">
-                                                <div class="recent-message">19rxWcjug44Xft1T1Ai11ptDZr94wEdRTz</div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="list-group-item list-group-item-action">
-                                    <div class="row">
-                                        <div class="contact-img col-sm-2">
-                                            <img src="/img/WeChat Image_20210519080830.jpg" width="50px" height="50px" alt="">
-                                        </div>
-                                        <div class="col-sm-10">
-                                            <div class="row d-flex w-100 justify-content-between">
-                                                <div class="contact-title mb-1">标题测试2312432423434</div>
-                                                <small class="received-message-time">3 days ago</small>
-                                            </div>
-                                            <div class="row ">
-                                                <div class="recent-message">19rxWcjug44Xft1T1Ai11ptDZr94wEdRTz</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
+
+
                 <!-- 第三个列 聊天窗口 -->
                 <div class="chat-frame col-sm-8">
                     <!-- 标题和按钮 -->
                     <div class="row  chatroom-title">
+                        <#--标题-->
                         <div class="title-content  col-sm-10">标题</div>
+                        <#--按钮-->
                         <i class="fas fa-clipboard-list col-sm-2" id="click_side" onclick="showChatDetail()" value="0"></i>
 
                     </div>
                     <!-- 聊天内容 -->
                     <div class="row col-sm-12">
                         <div class="chat-content col-sm-12">
+                            <#--聊天区-->
                             <ul class="chat">
-                                <li class="row">
+                                <li class="row" id="received_message">
                                     <img src="/img/WeChat Image_20210519080830.jpg" width="50px" height="50px">
-                                    <p id="item">fwefwefwefawefafeafwefawefawefwefawefawefawefawefawefwefawefawefawefwefwefwefwefwefefawefawfawfawefawfwefawwefw发生的附件会计法就看得见发电房11将无法就开始多了几分疯狂的叫法刻录机复健科违法进口量九分裤了巨额罚款了问卷啊风口浪尖复健科了王府井看了就付了款解放路卡荆防颗粒二级分开了二级分开了了我家附近儿科林锋吉
-                                        了九分裤垃圾分类就风口浪尖我看了房间里卡缴费e
-                                    </p>
+                                    <div class="row col-sm-11">
+                                        <div class="row username col-sm-12">123123123</div>
+                                        <div class="row content">fwefwefwefawefafeafwefawefawefwefawefawefawefawfawefw</div>
+                                    </div>
                                 </li>
+                                <li class="row " id="self_message">
+                                    <div class="row d-flex  justify-content-end col-sm-11">
+                                        <div class="row username w-100 justify-content-end">123123123</div>
+                                        <div class="row content ">fwefwefwefawefafeafwefawefawefwefawefawefawefawfawefw</div>
+                                    </div>
+                                    <img src="/img/WeChat Image_20210519080830.jpg" width="50px" height="50px">
+                                </li>
+                                <li class="row" id="system_message">
+                                    <p class="d-flex w-100 justify-content-center"> 某某某已上线</p>
+                                </li>
+                                <li class="row" id="time_message">
+                                    <p class="d-flex w-100 justify-content-center"> 15:49</p>
+                                </li>
+                                <li class="row" id="system_message">
+                                    <p class="d-flex w-100 justify-content-center"> 某某某已上线</p>
+                                </li>
+
                             </ul>
                             <!-- 聊天详情 -->
                             <div class="chat-detail">
                                 <ul class="user-detail">
-                                    <li>
-                                        <img src="/img/WeChat Image_20210519080830.jpg" height="80%" width="80%">
-                                        <p>用户名</p>
-                                    </li>
-                                    <li>
-                                        <img src="/img/WeChat Image_20210519080830.jpg" height="80%" width="80%">
-                                        <p>用户名</p>
-                                    </li>
-                                    <li>
+                                    <li onclick='showChat("test")'>
                                         <img src="/img/WeChat Image_20210519080830.jpg" height="80%" width="80%">
                                         <p>用户名</p>
                                     </li>
@@ -166,10 +149,7 @@
                                         <img src="/img/WeChat Image_20210519080830.jpg" height="80%" width="80%">
                                         <p>用户名fefwefawefwefawefwefawefawe</p>
                                     </li>
-                                    <li>
-                                        <img src="/img/WeChat Image_20210519080830.jpg" height="80%" width="80%">
-                                        <p>用户名啊</p>
-                                    </li>
+
                                 </ul>
 
                             </div>
@@ -184,7 +164,7 @@
                                 <i class="fas fa-image"></i>
                                 <i class="far fa-file"></i>
                             </div>
-                            <textarea class="input" name="" id="textarea" cols="20" rows="2" placeholder="写点东西吧..."></textarea>
+                            <textarea class="input" name="" id="textarea" cols="20" rows="1" placeholder="写点东西吧..."></textarea>
                         </div>
                     </div>
                 </div>
@@ -243,7 +223,7 @@
         var isTrue = parseInt($('#click_side').attr('value'));
         $(function() {
             if (isTrue === 0) {
-                $('.chat-detail').css("width", "44%");
+                $('.chat-detail').css("width", "18%");
                 $('.user-detail>li').css("width", "80px");
                 $('#click_side').attr('value', 1);
             } else {
@@ -254,6 +234,22 @@
             return false;
         });
     }
+    function showChat(name){
+        toUsers=name;
+        //现在聊天框
+        $(".chat").html("");
+        $(".chat").css("visibility","visible");
+        $(".title-content").html("当前正与"+toUsers+"聊天");
+        // //从sessionStorage中获取历史信息
+        // var chatData = sessionStorage.getItem(toName);
+        // if (chatData != null){
+        //     $("#content").html(chatData);
+        // }
+    }
+
+
+
+
 </script>
 
 </html>
