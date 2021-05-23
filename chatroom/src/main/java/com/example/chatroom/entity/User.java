@@ -42,5 +42,7 @@ public class User {
     @Column(name = "update_time")
     private Date updateTime;
 
+    private String avatar="/default.jpg";
+
 
 }

@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="/fontawesome-free-5.11.2-web/css/all.css">
     <link rel="stylesheet" href="css/chatroom.css">
     <script src='/js/chatroom.js'></script>
+    <script src='/js/file.js'></script>
 
 </head>
 
@@ -36,9 +37,13 @@
                 <div class="option-list">
                     <div class="row">
                         <div class="avatar">
-                            <img src="/img/WeChat Image_20210519080830.jpg" width="100%" height="100%">
+                            <a class="change-avatar" data-toggle="modal" data-target="#change_img_modal" href="#" onclick="showItem()">
+                                <img src="/show/${Session.user.username}" width="100%" height="100%">
+
+                            </a>
                         </div>
                     </div>
+
                     <div class="row">
                         <div class="chat-option row">
                             <i class="fas fa-comment"></i>
@@ -81,7 +86,7 @@
                                         </div>
                                         <div class="col-sm-10">
                                             <div class="row d-flex w-100 justify-content-between">
-                                                <div class="contact-title mb-1">标题测试2312432423434</div>
+                                                <div class="contact-title mb-1">这个还在测试中</div>
                                                 <small class="received-message-time">3 days ago</small>
                                             </div>
                                             <div class="row ">
@@ -113,47 +118,12 @@
                         <div class="chat-content col-sm-12">
                             <#--聊天区-->
                             <ul class="chat">
-                                <li class="row" id="received_message">
-                                    <img src="/img/WeChat Image_20210519080830.jpg" width="50px" height="50px">
-                                    <div class="row col-sm-11">
-                                        <div class="row username col-sm-12">123123123</div>
-                                        <div class="row content">fwefwefwefawefafeafwefawefawefwefawefawefawefawfawefw</div>
-                                    </div>
-                                </li>
-                                <li class="row " id="self_message">
-                                    <div class="row d-flex  justify-content-end col-sm-11">
-                                        <div class="row username w-100 justify-content-end">123123123</div>
-                                        <div class="row content ">fwefwefwefawefafeafwefawefawefwefawefawefawefawfawefw</div>
-                                    </div>
-                                    <img src="/img/WeChat Image_20210519080830.jpg" width="50px" height="50px">
-                                </li>
-                                <li class="row" id="system_message">
-                                    <p class="d-flex w-100 justify-content-center"> 某某某已上线</p>
-                                </li>
-                                <li class="row" id="time_message">
-                                    <p class="d-flex w-100 justify-content-center"> 15:49</p>
-                                </li>
-                                <li class="row" id="system_message">
-                                    <p class="d-flex w-100 justify-content-center"> 某某某已上线</p>
-                                </li>
-
                             </ul>
                             <!-- 聊天详情 -->
                             <div class="chat-detail">
                                 <ul class="user-detail">
-                                    <li onclick='showChat("test")'>
-                                        <img src="/img/WeChat Image_20210519080830.jpg" height="80%" width="80%">
-                                        <p>用户名</p>
-                                    </li>
-                                    <li>
-                                        <img src="/img/WeChat Image_20210519080830.jpg" height="80%" width="80%">
-                                        <p>用户名fefwefawefwefawefwefawefawe</p>
-                                    </li>
-
                                 </ul>
-
                             </div>
-
                         </div>
                     </div>
                     <!-- 输入框 -->
@@ -214,11 +184,55 @@
     </div>
 </div>
 
+
+<!-- 更换图片界面 -->
+<!-- Modal -->
+<div class="modal fade" id="change_img_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">更换照片</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="container">
+                        <div class="row w-100 h-50">
+                            <#--判断是否上传文件-->
+                            <#if msg??>
+                                <span>${msg}</span><br>
+                            <#else >
+                                <span>${msg!("文件未上传")}</span><br>
+                            </#if>
+<#--                            &lt;#&ndash;显示图片，一定要在img中的src发请求给controller，否则直接跳转是乱码&ndash;&gt;-->
+<#--                            <#if fileName??>-->
+<#--                            <img class="changed-image" src="/show?fileName=${fileName}" alt="" width="100%" height="100%" style="padding-bottom: 20px; ">-->
+<#--                            <#else>-->
+<#--                           <img src="/show" style="width: 100px"/>-->
+<#--                            </#if>-->
+                            <img class="changed-image" src="/show/${Session.user.username}" alt="" width="100%" height="100%" style="padding-bottom: 20px; ">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <form class="img-form"action="" method="post" enctype="multipart/form-data">
+                        <a href="javascript:;" id="upload" class="a-upload mr10"><input type="file" name="file" id="file">点击这里上传文件</a>
+                        <button id="uploadBtn" type="button"onclick="uploadImg()" class="btn btn-primary">上传</button>
+                        <div class="showFileName"></div>
+                    </form>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
 </body>
 
 <script>
-
-
     function showChatDetail() {
         var isTrue = parseInt($('#click_side').attr('value'));
         $(function() {
@@ -234,6 +248,7 @@
             return false;
         });
     }
+
     function showChat(name){
         toUsers=name;
         //现在聊天框
@@ -245,8 +260,18 @@
         // if (chatData != null){
         //     $("#content").html(chatData);
         // }
-    }
+    };
 
+
+
+    //
+    // $(function(){
+    //     /** 验证文件是否导入成功  */
+    //     $(".img-form").ajaxForm(function(data){
+    //         alert(data);
+    //         console.log(JSON.stringify(data));
+    //     });
+    // });
 
 
 

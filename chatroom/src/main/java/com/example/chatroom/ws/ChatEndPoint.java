@@ -106,10 +106,8 @@ public class ChatEndPoint {
                 System.out.println(resultMessage);
                 onlineUsers.get(toName).session.getBasicRemote().sendText(resultMessage);
             }
-
         } catch (Exception e) {
             e.printStackTrace();
-
         }
     }
 

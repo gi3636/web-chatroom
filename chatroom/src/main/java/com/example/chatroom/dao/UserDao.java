@@ -1,8 +1,13 @@
 package com.example.chatroom.dao;
 
 import com.example.chatroom.entity.User;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -18,6 +23,18 @@ import java.util.List;
 public interface UserDao extends JpaRepository<User,Integer> {
 
     User findUserByUsernameAndPassword(String username,String password);
+    User findUserByUsername(String username);
+
+    /**
+     * 修改图片路径
+     * @param path
+     * @param userId
+     * @return
+     */
+    @Transactional//不加这个注释就会报错
+    @Query("update User set avatar=?1 where userId=?2")
+    @Modifying
+    int changeAvatar( String path,Integer userId);
 
 
 

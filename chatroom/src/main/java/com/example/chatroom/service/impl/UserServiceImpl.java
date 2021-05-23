@@ -17,6 +17,17 @@ public class UserServiceImpl  implements UserService {
         return result;
     }
 
+    @Override
+    public User findOne(String username) {
+        User result=userDao.findUserByUsername(username);
+        return result;
+    }
+
+    @Override
+    public int changeAvatarPath(String path, Integer userId) {
+        return userDao.changeAvatar(path,userId);
+    }
+
 
     @Override
     public User addAndFlush(User user) {

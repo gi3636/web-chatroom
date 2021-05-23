@@ -66,13 +66,16 @@ $(function () {
             //2.系统消息展示
             let broadcastListStr="";
             //初始化界面
+            console.log("测试")
+            console.log(toUsers);
             for (let name of toUsers)
             {
-                userListStr += "<li onclick='showChat(\""+name+"\")'><img src=\"/img/WeChat Image_20210519080830.jpg\" height=\"80%\" width=\"80%\"> <p>"+name+"</p></li>";
+                userListStr += "<li onclick='showChat(\""+name+"\")'><img src=\"show/"+name+"\" height=\"80%\" width=\"80%\"> <p>"+name+"</p></li>";
+                console.log(userListStr);
             }
             broadcastListStr+="<li class=\"row\" id=\"time_message\"><p class=\"d-flex w-100 justify-content-center\">"+time+"</p></li>"
             broadcastListStr+="<li class=\"row\" id=\"system_message\"><p class=\"d-flex w-100 justify-content-center\">"+res["fromName"]+"已上线</p></li>"
-            $(".user-detail").append(userListStr);
+            $(".user-detail").html(userListStr);
             $(".chat").append(broadcastListStr);
 
         }else {
@@ -80,9 +83,9 @@ $(function () {
             //显示信息
             // var str = "<li class=\"row\"><img src=\"/img/WeChat Image_20210519080830.jpg\" width=\"50px\" height=\"50px\"><p id=\"item\">"+res.message+"</p></li>";
             let str="<li class=\"row\" id=\"received_message\">\n" +
-                "   <img src=\"/img/WeChat Image_20210519080830.jpg\" width=\"50px\" height=\"50px\">\n" +
+                "   <img src=\"show/"+res["fromName"]+"\" width=\"50px\" height=\"50px\">\n" +
                 "    <div class=\"row col-sm-11\">\n" +
-                "       <div class=\"row username col-sm-12\">123123123</div>\n" +
+                "       <div class=\"row username col-sm-12\">"+res["fromName"]+"</div>\n" +
                 "              <div class=\"row content\">"+res.message+"</div>\n" +
                 "          </div>\n" +
                 "   </li>";
@@ -121,10 +124,10 @@ $(function () {
            let json={"toUsername":"test","message":data};
            let str=" <li class=\"row \" id=\"self_message\">\n" +
                "     <div class=\"row d-flex  justify-content-end col-sm-11\">\n" +
-               "        <div class=\"row username w-100 justify-content-end\">123123123</div>\n" +
+               "        <div class=\"row username w-100 justify-content-end\">"+user["username"]+"</div>\n" +
                "        <div class=\"row content \">"+data+"</div>\n" +
                "     </div>\n" +
-               "     <img src=\"/img/WeChat Image_20210519080830.jpg\" width=\"50px\" height=\"50px\">\n" +
+               "     <img src=\"/show/"+user["username"]+"\" width=\"50px\" height=\"50px\">\n" +
                "  </li>";
            $(".chat").append(str);
            refreshMessage();

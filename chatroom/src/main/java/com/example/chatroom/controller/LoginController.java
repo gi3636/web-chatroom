@@ -7,15 +7,18 @@ import com.example.chatroom.service.impl.UserServiceImpl;
 import eu.bitwalker.useragentutils.Browser;
 import eu.bitwalker.useragentutils.UserAgent;
 import eu.bitwalker.useragentutils.Version;
+import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.HashMap;
 
 @Controller
 public class LoginController {
@@ -74,7 +77,6 @@ public class LoginController {
             Version version = browser.getVersion(request.getHeader("User-Agent"));
             String info = browser.getName() + "/" + version.getVersion();
             String ip= InetAddress.getLocalHost().getHostAddress();
-
             loginResult.setUserId(user.getUserId());
             loginResult.setLoginMessage("登入成功");
             loginResult.setResult(true);
@@ -96,6 +98,7 @@ public class LoginController {
         System.out.println(loginResult);
         return loginResult;
     }
+
 
 
 }
