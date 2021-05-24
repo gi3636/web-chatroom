@@ -82,7 +82,7 @@
                                 <div class="list-group-item list-group-item-action active">
                                     <div class="row">
                                         <div class="contact-img col-sm-2">
-                                            <img src="/img/WeChat%20Image_20210519080830.jpg" width="50px" height="50px" alt="">
+                                            <img src="/img/default.jpg" width="50px" height="50px" alt="">
                                         </div>
                                         <div class="col-sm-10">
                                             <div class="row d-flex w-100 justify-content-between">
@@ -108,7 +108,7 @@
                     <!-- 标题和按钮 -->
                     <div class="row  chatroom-title">
                         <#--标题-->
-                        <div class="title-content  col-sm-10">标题</div>
+                        <div class="title-content  col-sm-10">希望有高分</div>
                         <#--按钮-->
                         <i class="fas fa-clipboard-list col-sm-2" id="click_side" onclick="showChatDetail()" value="0"></i>
 
