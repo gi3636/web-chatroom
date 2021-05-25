@@ -4,12 +4,13 @@
 ## 2. 框架介绍
 
 #### 前端
-|  技术   | 版本  | 官网 |
-|  ----  | ----  | ---  |
+|  技术   | 版本  | 官网 | 备注 |
+|  ----  | ----  | ---- | ---- |
 | freemarker  | 2.3.31 | https://freemarker.apache.org/ |
 | Bootstrap  | 4.6.0 | http://www.bootcss.com/ | 
 | Jquery  | 3.5.1 | https://jquery.com/ |
 | Bootstrap  | 4.6.0 | http://www.bootcss.com/ | 
+| Font-Awesome  | 5.11.2 | https://fontawesome.com/ | 图标库 |
 
 **后端**
 |  技术   | 版本  | 官网 |
@@ -45,11 +46,18 @@ spring.datasource.password=123456
 ```
 浏览地址：http://localhost:8888/login
 
-## 4. 目前做好的功能
+## 4. 参考资料
+* java聊天室开源 https://web03.cn/blog/109
+* WebSocket打造在线聊天室【完结】 https://www.bilibili.com/video/BV1r54y1D72U/?spm_id_from=333.788.recommend_more_video.0
+* userforgitee / websocket-demo https://gitee.com/userforgitee/websocket-demo/tree/master
+* 2天开发一个聊天室，真香 https://www.bilibili.com/video/BV1yp4y1z7HF/?spm_id_from=333.788.recommend_more_video.5
+
+
+## 5. 目前做好的功能
 1. 聊天功能
 2. 图片上传功能
 
-## 5. 以后要做的功能
+## 6. 以后要做的功能
 1. 群聊和私聊的区分
 2. 添加好友功能
 3. 好友列表展示
