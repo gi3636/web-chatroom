@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * 浏览器给服务端发的消息
  */
-public class Message {
+public class Message implements java.io.Serializable{
     private List<String> toUsernames;
     private String message;
     private String fromUser;

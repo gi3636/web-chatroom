@@ -17,6 +17,6 @@ public class ResultMessage {
     private String fromName;
     //private String toName;
     private Object toUser;
-    private String message;//如果是系统消息是数组
+    private String message;
     private Date sendTime;
 }

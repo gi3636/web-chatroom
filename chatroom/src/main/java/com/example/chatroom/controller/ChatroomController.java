@@ -24,4 +24,11 @@ public class ChatroomController {
         String username = (String) httpSession.getAttribute("username");
         return username;
     }
+
+    @RequestMapping("/getOnlineUsers")
+    @ResponseBody
+    public String getOnlineUsers(HttpSession httpSession){
+        String onlineUsers = (String) httpSession.getAttribute("onlineUsers");
+        return onlineUsers;
+    }
 }

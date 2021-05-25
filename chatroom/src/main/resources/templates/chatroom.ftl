@@ -108,7 +108,7 @@
                     <!-- 标题和按钮 -->
                     <div class="row  chatroom-title">
                         <#--标题-->
-                        <div class="title-content  col-sm-10">希望有高分</div>
+                        <div class="title-content  col-sm-10">高分群</div>
                         <#--按钮-->
                         <i class="fas fa-clipboard-list col-sm-2" id="click_side" onclick="showChatDetail()" value="0"></i>
 
@@ -200,12 +200,12 @@
                 <div class="container-fluid">
                     <div class="container">
                         <div class="row w-100 h-50">
-                            <#--判断是否上传文件-->
-                            <#if msg??>
-                                <span>${msg}</span><br>
-                            <#else >
-                                <span>${msg!("文件未上传")}</span><br>
-                            </#if>
+<#--                            &lt;#&ndash;判断是否上传文件&ndash;&gt;-->
+<#--                            <#if msg??>-->
+<#--                                <span>${msg}</span><br>-->
+<#--                            <#else >-->
+<#--                                <span>${msg!("文件未上传")}</span><br>-->
+<#--                            </#if>-->
 <#--                            &lt;#&ndash;显示图片，一定要在img中的src发请求给controller，否则直接跳转是乱码&ndash;&gt;-->
 <#--                            <#if fileName??>-->
 <#--                            <img class="changed-image" src="/show?fileName=${fileName}" alt="" width="100%" height="100%" style="padding-bottom: 20px; ">-->
@@ -249,18 +249,6 @@
         });
     }
 
-    function showChat(name){
-        toUsers=name;
-        //现在聊天框
-        $(".chat").html("");
-        $(".chat").css("visibility","visible");
-        $(".title-content").html("当前正与"+toUsers+"聊天");
-        // //从sessionStorage中获取历史信息
-        // var chatData = sessionStorage.getItem(toName);
-        // if (chatData != null){
-        //     $("#content").html(chatData);
-        // }
-    };
 
 
 
