@@ -9,7 +9,6 @@
 | freemarker  | 2.3.31 | https://freemarker.apache.org/ |
 | Bootstrap  | 4.6.0 | http://www.bootcss.com/ | 
 | Jquery  | 3.5.1 | https://jquery.com/ |
-| Bootstrap  | 4.6.0 | http://www.bootcss.com/ | 
 | Font-Awesome  | 5.11.2 | https://fontawesome.com/ | 图标库 |
 
 **后端**
