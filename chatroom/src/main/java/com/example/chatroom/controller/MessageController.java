@@ -23,7 +23,7 @@ public class MessageController {
     @RequestMapping("/getServerToBrowserMessage/{username}")
     @ResponseBody
     public List<ServerToBrowserMessage> getServerToBrowserMessage(@PathVariable String username){
-        
+
         return null;
 
     }
