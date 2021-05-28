@@ -1,6 +1,7 @@
 package com.example.chatroom.service.impl;
 
 import com.example.chatroom.dao.UserDao;
+import com.example.chatroom.entity.GroupChat;
 import com.example.chatroom.entity.User;
 import com.example.chatroom.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,11 @@ public class UserServiceImpl  implements UserService {
     @Override
     public int changeAvatarPath(String path, Integer userId) {
         return userDao.changeAvatar(path,userId);
+    }
+
+    @Override
+    public User addGroupChat(GroupChat groupChat) {
+        return null;
     }
 
 

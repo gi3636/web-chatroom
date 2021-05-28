@@ -1,7 +1,9 @@
 package com.example.chatroom.controller;
 
 import com.example.chatroom.dao.UserDao;
+import com.example.chatroom.entity.GroupChat;
 import com.example.chatroom.entity.User;
+import com.example.chatroom.service.impl.GroupChatServiceImpl;
 import com.example.chatroom.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,12 +14,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class SignUpController {
 
     @Autowired
     private UserServiceImpl userService;
+
+    @Autowired
+    private GroupChatServiceImpl groupChatService;
 
     @RequestMapping(value = "/register",method = RequestMethod.GET)
     public String register(){
@@ -42,7 +49,16 @@ public class SignUpController {
         User user=new User();
         user.setUsername(username);
         user.setPassword(password);
-        userService.addAndFlush(user);
+        GroupChat groupChat=groupChatService.findOne(1);
+        if (groupChat!=null){
+            user.getGroupChatList().add(groupChat);
+        }else {
+            groupChat=new GroupChat();
+           groupChat.setGroupName("测试群");
+           user.getGroupChatList().add(groupChat);
+
+        }
+        userService.add(user);
         return true;
     }
 }

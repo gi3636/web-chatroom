@@ -36,6 +36,11 @@ public interface UserDao extends JpaRepository<User,Integer> {
     @Modifying
     int changeAvatar( String path,Integer userId);
 
+    @Transactional // 自定义update、delete、insert 的 Dao 接口必备
+
+    @Query("delete from User ")
+    void deleteConnectionByUserId(Integer userId);
+
 
 
 

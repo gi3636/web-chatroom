@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="css/chatroom.css">
     <script src='/js/chatroom.js'></script>
     <script src='/js/file.js'></script>
+    <script src='/js/common.js'></script>
 
 </head>
 
@@ -38,8 +39,11 @@
                     <div class="row">
                         <div class="avatar">
                             <a class="change-avatar" data-toggle="modal" data-target="#change_img_modal" href="#" onclick="showItem()">
-                                <img src="/show/${Session.user.username}" width="100%" height="100%">
-
+                                <#if Session["username"]?exists>
+                                    <img src="/show/${Session["username"]}" width="100%" height="100%">
+                                <#else>
+                                    <img src="" width="100%" height="100%">
+                                </#if>
                             </a>
                         </div>
                     </div>
@@ -78,8 +82,8 @@
                     <div class="row">
                         <div class="contact-list col-sm-12">
                             <!-- 聊天列表 -->
-                            <div class="list-group">
-                                <div class="list-group-item list-group-item-action active">
+                            <ul class="chat-history-list list-group ">
+                                <li class="list-group-item list-group-item-action active" onclick="showGroupChat(1,this)" >
                                     <div class="row">
                                         <div class="contact-img col-sm-2">
                                             <img src="/img/default.jpg" width="50px" height="50px" alt="">
@@ -94,9 +98,25 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </li>
+                                <li class="list-group-item list-group-item-action " onclick="showGroupChat(1,this)">
+                                    <div class="row">
+                                        <div class="contact-img col-sm-2">
+                                            <img src="/img/default.jpg" width="50px" height="50px" alt="">
+                                        </div>
+                                        <div class="col-sm-10">
+                                            <div class="row d-flex w-100 justify-content-between">
+                                                <div class="contact-title mb-1">这个还在测试中</div>
+                                                <small class="received-message-time">3 days ago</small>
+                                            </div>
+                                            <div class="row ">
+                                                <div class="recent-message">19rxWcjug44Xft1T1Ai11ptDZr94wEdRTz</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
 
-                            </div>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -108,7 +128,7 @@
                     <!-- 标题和按钮 -->
                     <div class="row  chatroom-title">
                         <#--标题-->
-                        <div class="title-content  col-sm-10">高分群</div>
+                        <div class="title-content  col-sm-10">聊天室</div>
                         <#--按钮-->
                         <i class="fas fa-clipboard-list col-sm-2" id="click_side" onclick="showChatDetail()" value="0"></i>
 
@@ -212,7 +232,12 @@
 <#--                            <#else>-->
 <#--                           <img src="/show" style="width: 100px"/>-->
 <#--                            </#if>-->
-                            <img class="changed-image" src="/show/${Session.user.username}" alt="" width="100%" height="100%" style="padding-bottom: 20px; ">
+                            <#if Session["username"]?exists>
+                                <img class="changed-image" src="/show/${Session["username"]}" alt="" width="100%" height="100%" style="padding-bottom: 20px; ">
+                            <#else>
+                                <img class="changed-image" src="" alt="" width="100%" height="100%" style="padding-bottom: 20px; ">
+                            </#if>
+
                         </div>
                     </div>
                 </div>
