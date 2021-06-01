@@ -123,10 +123,6 @@ $(function () {
             onlineUsers=res["toUser"];
             arrRemove(user["username"],onlineUsers);
             console.log("onlineUser"+onlineUsers);
-            console.log("onlineUserList"+onlineUserList);
-            console.log("测试目前在线用户")
-            console.log(onlineUsers);
-
             let time=Common.formatTime(res["sendTime"],'yyyy-MM-dd HH:mm:ss');
             console.log("收到时间: "+time);
 

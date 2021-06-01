@@ -87,9 +87,13 @@ public class ChatEndPoint {
                 GroupChat groupChat=groupChatService.findOne(groupChatId);
                 List<User>users=groupChat.getGroupChatUsers();
                 for (User user:users) {
-                    toNames.add(user.getUsername());
-                    System.out.println(user.getUsername());
+                    //获取群组里目前在线的人
+                    if (onlineUsers.get(user.getUsername())!=null){
+                        toNames.add(user.getUsername());
+                        System.out.println(user.getUsername());
+                    }
                 }
+                //把自己移除
                 toNames.remove(username);
             }else {
                 toNames=mess.getToUsernames();
@@ -120,19 +124,15 @@ public class ChatEndPoint {
     public void onClose(Session session){
         onlineUsers.remove(username);
         ServerToBrowserMessage serverToBrowserMessage= new ServerToBrowserMessage(true,1,username,getOnlineUsers(),"离线了",new Date());
-        //String resultMessage = MessageUtils.getMessage(false, fromName,data,new Date(),toName);
         serverToBrowserMessageService.add(serverToBrowserMessage);
         String message=JSON.toJSONString(serverToBrowserMessage);
         broadcastAllUsers(message);
         String username = (String) httpSession.getAttribute("username");
         if (username != null){
             onlineUsers.remove(username);
-            //UserInterceptor.onLineUsers.remove(username);
         }
         httpSession.removeAttribute("user");
-//        Map a = UserInterceptor.onLineUsers;
-//        System.out.println(a);
-        //String message=MessageUtils.getMessage(true,username,"更新消息",null,getOnlineUsers());
+
     }
 
 

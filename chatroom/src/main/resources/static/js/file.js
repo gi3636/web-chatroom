@@ -48,7 +48,7 @@ function uploadImg(){
         success:function(result){
             if(result!=null){
                 console.log(JSON.stringify(result));
-                console.log(result);
+                console.log("照片："+result);
                 alert("上传成功，刷新即可");
                 $(".changed-image").attr("src", result);
                 $(".change-avatar>img").attr("src", result);

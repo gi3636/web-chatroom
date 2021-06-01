@@ -56,7 +56,6 @@ public class SignUpController {
             groupChat=new GroupChat();
            groupChat.setGroupName("测试群");
            user.getGroupChatList().add(groupChat);
-
         }
         userService.add(user);
         return true;
