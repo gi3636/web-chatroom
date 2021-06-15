@@ -9,7 +9,6 @@
 
     <link rel="stylesheet" href="webjars/bootstrap/4.6.0/css/bootstrap.min.css"/>
     <script type="text/javascript" src="webjars/jquery/3.5.1/dist/jquery.min.js"></script>
-
     <script type="text/javascript" src="webjars/bootstrap/4.6.0/css/bootstrap.min.css"></script>
     <link rel="stylesheet" href="/fontawesome-free-5.11.2-web/css/all.css">
     <link rel="stylesheet" href="css/login.css">

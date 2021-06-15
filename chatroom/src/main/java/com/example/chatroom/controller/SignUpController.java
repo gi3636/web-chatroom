@@ -5,6 +5,7 @@ import com.example.chatroom.entity.GroupChat;
 import com.example.chatroom.entity.User;
 import com.example.chatroom.service.impl.GroupChatServiceImpl;
 import com.example.chatroom.service.impl.UserServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Controller
 public class SignUpController {
 
@@ -57,6 +59,7 @@ public class SignUpController {
            groupChat.setGroupName("测试群");
            user.getGroupChatList().add(groupChat);
         }
+        log.info("Register,name:{},password:{}  成功", user.getUsername(), user.getPassword());
         userService.add(user);
         return true;
     }

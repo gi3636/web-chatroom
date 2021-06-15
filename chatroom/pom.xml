@@ -95,6 +95,13 @@
             <version>1.20</version>
         </dependency>
 
+<!-- 日志包-->
+        <!-- 默认使用logging 当然Spring Boot其实已经自带了 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-logging</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
