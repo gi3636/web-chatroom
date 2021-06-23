@@ -7,6 +7,7 @@ import com.example.chatroom.service.impl.UserServiceImpl;
 import eu.bitwalker.useragentutils.Browser;
 import eu.bitwalker.useragentutils.UserAgent;
 import eu.bitwalker.useragentutils.Version;
+import lombok.extern.slf4j.Slf4j;
 import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,7 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 
 @Controller
+@Slf4j
 public class LoginController {
 
     @Autowired
@@ -86,16 +88,13 @@ public class LoginController {
             httpSession.setAttribute("userId", user.getUserId());
             httpSession.setAttribute("username", user.getUsername());
             loginResultService.addAndFlush(loginResult);
-            System.out.println(user);
-            System.out.println("登入成功");
+            log.info("{}登入成功",user.getUsername());
         }else {
+            log.info("账号：{}，密码：{}，登入失败",username,password);
             loginResult.setUserId(null);
             loginResult.setLoginMessage("登入失败");
             loginResult.setResult(false);
-            System.out.println("登入失败");
-            model.addAttribute("msg","密码或账号错误");
         }
-        System.out.println(loginResult);
         return loginResult;
     }
 

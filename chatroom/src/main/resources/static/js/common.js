@@ -49,3 +49,17 @@ var Common = function () {
 jQuery(document).ready(function() {
     Common.init();
 });
+
+//用来移除自己
+var arrRemove = function (content, arr) {
+    if (!arr || arr.length == 0) {
+        return ""
+    }
+    let flag = arr.indexOf(content)
+    if (flag > -1) {
+        arr.splice(flag, 1)
+        return arr
+    } else {
+        console.log("未查找到该元素")
+    }
+};

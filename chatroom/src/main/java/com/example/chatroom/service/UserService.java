@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 public interface UserService {
     public User findOne(String username,String password);
     public User findOne(String username);
+    public User findOne(Integer userId);
     public int changeAvatarPath(String path,Integer userId);
     public User addGroupChat(GroupChat groupChat);
+
 
 
 

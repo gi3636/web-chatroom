@@ -9,78 +9,8 @@ var toUser=null;//要send给谁
 //默认发送对象为在线的人
 var flag=true;
 var groupChatId=1;//群聊的ID，默认是全体群
-
-
-function showChat(name){
-    //表示对象不是群聊
-    groupChatId=null;
-    toUser=name;
-    //现在聊天框
-    $(".chat").html("");
-
-    $(".title-content").html("当前正与"+toUser+"聊天");
-    //从sessionStorage中获取历史信息
-    var chatData = sessionStorage.getItem(toUser);
-    if (chatData != null){
-        $(".chat").html(chatData);
-    }
-
-    refreshMessage();
-};
-
-
-function showGroupChat(id,obj){
-    toUser=null;
-    groupChatId=id;
-    //现在聊天框
-    $(".chat").html("");
-
-    let url="/getGroupChat/"+groupChatId;
-    //设置点击效果
-    $(".chat-history-list li").removeClass("active");
-    $(obj).addClass("active");
-    initialGroupChat(url);
-
-}
-function initialGroupChat(url){
-    $(function () {
-        $.ajax({
-            type: "GET",
-            url:url,
-            success(data){
-                let result=data;
-                console.log("groupChat:"+result);
-                //获取群聊的群名
-                $(".title-content").html(result["groupName"]);
-                //从sessionStorage中获取历史信息
-                let chatData = sessionStorage.getItem(groupChatId);
-                if (chatData != null){
-                    $(".chat").html(chatData);
-                }
-                refreshMessage();
-            },
-            error(data){
-                alert(data);
-            },
-            async: false
-        })
-    });
-}
-
-
-//用来移除自己
-var arrRemove = function (content, arr) {
-    if (!arr || arr.length == 0) {
-        return ""
-    }
-    let flag = arr.indexOf(content)
-    if (flag > -1) {
-        arr.splice(flag, 1)
-        return arr
-    } else {
-        console.log("未查找到该元素")
-    }
-};
+var isPrivateChat=false;
+var fromUser;
 
 
 $(function () {
@@ -91,11 +21,8 @@ $(function () {
             user=data;
             console.log(JSON.stringify(user));
         },
-        async:false //同步请求，只有上面好了才会接着下面
+        async:false
     });
-
-
-
 
     //建立websocket连接
     //获取host解决后端获取httpSession的空指针异常
@@ -104,180 +31,300 @@ $(function () {
 
     //给ws绑定事件
     ws.onopen=function (evt) {
-        let url="/getGroupChat/"+groupChatId;
-        initialGroupChat(url);
-
+        initGroupChat(1,this);
     }
 
     //接收到服务端推送的消息后触发
     ws.onmessage=function(evt){
-        //获取服务端推送过来的消息
         let dataStr=evt.data;
         let res=JSON.parse(dataStr);
         console.log(res);
-
-        //判断是否是系统消息
-        if(res["system"]){
-            console.log("系统消息");
-            //更新用户名单
-            onlineUsers=res["toUser"];
-            arrRemove(user["username"],onlineUsers);
-            console.log("onlineUser"+onlineUsers);
-            let time=Common.formatTime(res["sendTime"],'yyyy-MM-dd HH:mm:ss');
-            console.log("收到时间: "+time);
-
-            //1.好友列表的展示
-            let userListStr="";
-            //2.系统消息展示
-            let broadcastListStr="";
-            //初始化界面
-            for (let name of onlineUsers)
-            {
-                userListStr += "<li onclick='showChat(\""+name+"\")'><img src=\"show/"+name+"\" height=\"80%\" width=\"80%\"> <p>"+name+"</p></li>";
-            }
-            broadcastListStr+="<li class=\"row\" id=\"time_message\"><p class=\"d-flex w-100 justify-content-center\">"+time+"</p></li>"
-            broadcastListStr+="<li class=\"row\" id=\"system_message\"><p class=\"d-flex w-100 justify-content-center\">"+res["fromName"]+" "+res["message"]+"</p></li>"
-            //因为目前只有一个全体群
-            if (groupChatId===res["groupChatId"]){
-                $(".user-detail").html(userListStr);
-                $(".chat").append(broadcastListStr);
-            }
-
-            let chatData=sessionStorage.getItem(res["groupChatId"]);
-            if (chatData!=null){
-                broadcastListStr=chatData+broadcastListStr;
-            }
-            sessionStorage.setItem(res["groupChatId"],broadcastListStr);
-        }else {
-            console.log("收到信息");
-            let time=Common.formatTime(res["sendTime"],'yyyy-MM-dd HH:mm:ss');
-            //不是系统消息
-            //显示信息
-            // var str = "<li class=\"row\"><img src=\"/img/WeChat Image_20210519080830.jpg\" width=\"50px\" height=\"50px\"><p id=\"item\">"+res.message+"</p></li>";
-            let str="<li class=\"row\" id=\"time_message\"><p class=\"d-flex w-100 justify-content-center\">"+time+"</p></li>" +
-                "<li class=\"row\" id=\"received_message\">\n" +
-                "   <img src=\"show/"+res["fromName"]+"\" width=\"50px\" height=\"50px\">\n" +
-                "    <div class=\"row col-sm-11\">\n" +
-                "       <div class=\"row username col-sm-12\">"+res["fromName"]+"</div>\n" +
-                "              <div class=\"row content\">"+res.message+"</div>\n" +
-                "          </div>\n" +
-                "   </li>";
-
-            console.log("要发送的用户："+toUser);
-            console.log("来自："+res["fromName"]);
-
-            //收到的信息是私聊，但打开其他人的私聊界面
-            if (res["groupChatId"]==null && toUser !=null){
-                //私聊时才显示信息
-                if (toUser==res["fromName"] ){
-                    $(".chat").append(str);
-                }
-                let chatData=sessionStorage.getItem(res["fromName"]);
-                if (chatData!=null){
-                    str=chatData+str;
-                }
-                sessionStorage.setItem(res["fromName"],str);
-
-            }else if(res["groupChatId"]==null && toUser ==null)//收到的信息是私聊,且目前打开的是群聊界面
-            {
-                let chatData=sessionStorage.getItem(res["fromName"]);
-                if (chatData!=null){
-                    str=chatData+str;
-                }
-                sessionStorage.setItem(res["fromName"],str);
-            } else {
-                //是群聊
-                //现在打开的群聊是发送信息的群聊才显示信息
-                if (res["groupChatId"]==groupChatId && toUser ==null){
-                    $(".chat").append(str);
-                }
-                let chatData=sessionStorage.getItem(res["groupChatId"]);
-                if (chatData!=null){
-                    str=chatData+str;
-                }
-                sessionStorage.setItem(res["groupChatId"],str);
-            }
+        let time=Common.formatTime(res["sendTime"],'yyyy-MM-dd HH:mm:ss');
+        if (res["isSystem"]){
+            systemMessage(res,time)
+        }
+        //文本消息
+        if(res["type"] === 1 && !res["isSystem"]){
+            textMessage(res,time)
+        }
+        //图片信息
+        else if(res["type"] === 2 && !res["isSystem"]){
+        }
+        //文件信息
+        else if(res["type"] === 3 && !res["isSystem"]){
         }
         refreshMessage();
     }
 
 
-    ws.onclose=function () {
+    ws.onclose=function (e) {
         //显示离线消息
-
+        console.log("连接断开："+e.code + " " +e.reason + " " + e.wasClean )
+        console.log(e);
     }
 
-
-
-
-
-
-    //清空输入区的内容
-    $("#textarea").val(null);
-    $("#textarea").selectionStart = 1;  // 选中区域的左边界
-
-
-    //textarea发送消息触发事件
     $("#textarea").keydown(function (e) {
-
         //按enter键
-        if (e.keyCode===13){
-            //获取输入的内容
-            let data=$("#textarea").val().trim();
-           // let time = formatDate(new Date());
-            let time=Common.formatTime(new Date(),'yyyy-MM-dd HH:mm:ss');
-            console.log("发出时间："+time);
-            //清空输入区的内容
-            $("#textarea").val(null);
-            console.log("发送的用户："+toUser);
-
-            let mess={
-                toUsernames:toUser,
-                message: data,
-                fromUser:user["username"],
-                sendTime:time,
-                groupChatId:groupChatId,
-            }
-
-            let str="<li class=\"row\" id=\"time_message\"><p class=\"d-flex w-100 justify-content-center\">"+time+"</p></li> " +
-                "<li class=\"row \" id=\"self_message\">\n" +
-                "     <div class=\"row d-flex  justify-content-end col-sm-11\">\n" +
-                "        <div class=\"row username w-100 justify-content-end\">"+user["username"]+"</div>\n" +
-                "        <div class=\"row content \">"+data+"</div>\n" +
-                "     </div>\n" +
-                "     <img src=\"/show/"+user["username"]+"\" width=\"50px\" height=\"50px\">\n" +
-                "  </li>";
-            $(".chat").append(str);
-
-            //如果是群聊
-            if (groupChatId!=null && toUser==null){
-                let chatData=sessionStorage.getItem(groupChatId);
-                if (chatData!=null){
-                    str=chatData+str;
-                }
-                sessionStorage.setItem(groupChatId,str);
-            }else {
-                //如果不是群聊
-                let chatData=sessionStorage.getItem(toUser);
-                if (chatData!=null){
-                    str=chatData+str;
-                }
-                sessionStorage.setItem(toUser,str);
-            }
-
-            console.log("要发送的数据："+JSON.stringify(mess))
-            //发送数据
-            ws.send(JSON.stringify(mess));
-            refreshMessage();
+        if (e.keyCode === 13) {
+            sendMessage();
         }
     });
 
+    function sendMessage() {
+        let data = $("#textarea").val().trim();
+        let time = Common.formatTime(new Date(), 'yyyy-MM-dd HH:mm:ss');
+        console.log("发出时间：" + time);
+        $("#textarea").val(null);
+        console.log("发送的用户：" + toUser);
+        let mess = {
+            toUserId: toUser,
+            fromUserId: user["userId"],
+            message: data,
+            type: 1,
+            isSystem: false,
+            isPrivateMessage: isPrivateChat,
+            sendTime: time,
+            groupChatId: groupChatId,
+        }
+        let str = "<li class=\"row\" id=\"time_message\"><p class=\"d-flex w-100 justify-content-center\">" + time + "</p></li> " +
+            "<li class=\"row \" id=\"self_message\">\n" +
+            "     <div class=\"row d-flex  justify-content-end col-sm-11\">\n" +
+            "        <div class=\"row username w-100 justify-content-end\">" + user["username"] + "</div>\n" +
+            "        <div class=\"row content \">" + data + "</div>\n" +
+            "     </div>\n" +
+            "     <img src=\"/show/" + user["username"] + "\" width=\"50px\" height=\"50px\">\n" +
+            "  </li>";
+        $(".chat").append(str);
+
+        if (isPrivateChat) {
+            savePrivateMessage(toUser, str);
+        } else {
+            saveGroupChatMessage(groupChatId, str);
+        }
+        console.log("要发送的数据：" + JSON.stringify(mess))
+        ws.send(JSON.stringify(mess));
+        refreshMessage();
+    }
+
+    /**
+     * 获取用户
+     * @param fromUserId
+     */
+    function getFromUser(fromUserId){
+        $.ajax({
+            type:"GET",
+            url:"/getUser/"+fromUserId,
+            success:function(data){
+                fromUser=data;
+            },
+            async:false //同步请求，只有上面好了才会接着下面
+        });
+    }
+
+    function textMessage(res,time){
+        getFromUser(res["fromUserId"]);
+        console.log("收到信息:"+fromUser);
+        let str="<li class=\"row\" id=\"time_message\"><p class=\"d-flex w-100 justify-content-center\">"+time+"</p></li>" +
+            "<li class=\"row\" id=\"received_message\">\n" +
+            "   <img src=\"show/"+res["fromUserId"]+"\" width=\"50px\" height=\"50px\">\n" +
+            "    <div class=\"row col-sm-11\">\n" +
+            "       <div class=\"row username col-sm-12\">"+fromUser["username"]+"</div>\n" +
+            "              <div class=\"row content\">"+res["message"]+"</div>\n" +
+            "          </div>\n" +
+            "   </li>";
+
+        if (res["isPrivateMessage"]){
+            if (isTheSamePrivateWindow(res["fromUserId"],str)){
+                $(".chat").append(str);
+                console.log("显示消息")
+            }
+            savePrivateMessage(res["fromUserId"],str)
+        }else{
+            if (isTheSameGroupChatWindow(res["groupChatId"])){
+                $(".chat").append(str);
+            }
+            saveGroupChatMessage(res["groupChatId"],str)
+        }
+    }
+
+    function systemMessage(res,time){
+        console.log("系统消息");
+        console.log(res);
+        let str="";
+        str+="<li class=\"row\" id=\"time_message\"><p class=\"d-flex w-100 justify-content-center\">"+time+"</p></li>"
+        str+="<li class=\"row\" id=\"system_message\"><p class=\"d-flex w-100 justify-content-center\">"+res["message"]+"</p></li>"
+        //判断是否展现
+
+        if (res["isPrivateMessage"]){
+            if (isTheSamePrivateWindow(res["fromUserId"])){
+                $(".chat").append(str);
+            }
+            savePrivateMessage(res["fromUserId"],str)
+        }else{
+            if (isTheSameGroupChatWindow(res["groupChatId"])){
+                $(".chat").append(str);
+            }
+            saveGroupChatMessage(res["groupChatId"],str)
+        }
+    }
+
+    function savePrivateMessage(fromUserId ,str){
+        let chatData=sessionStorage.getItem("private"+fromUserId);
+        if (chatData!=null){
+            str=chatData+str;
+        }
+        sessionStorage.setItem("private"+fromUserId,str);
+    }
+
+    function saveGroupChatMessage(groupChatId ,str){
+        let chatData=sessionStorage.getItem("group"+groupChatId);
+        if (chatData!=null){
+            str=chatData+str;
+        }
+        sessionStorage.setItem("group"+groupChatId,str);
+    }
+
+//判断当前开启窗口与收到信息为一致
+    function isTheSamePrivateWindow(fromUserId,str){
+        console.log("私聊");
+        //打开窗口与收到信息一致
+        if (toUser === fromUserId && toUser != null && fromUserId != null){
+            console.log("显示消息")
+            return true;
+        }
+        return false;
+    }
+
+//判断当前开启窗口与收到信息为一致
+    function isTheSameGroupChatWindow(fromGroupChatId){
+        console.log("群聊")
+        //打开窗口与收到信息一致
+        if (groupChatId === fromGroupChatId && groupChatId != null && fromGroupChatId != null){
+            console.log("窗口一致");
+            console.log("显示信息")
+            return true;
+        }
+        console.log("窗口不一致");
+        return false;
+    }
+});
 
 
 
 
-})
 // 消息滚动条显示至底部
 function  refreshMessage(){
     $(".chat-content")[0].scrollTop=$(".chat-content")[0].scrollHeight;
 };
+
+/**
+ * 显示列表
+ * @param data
+ */
+function showUserList(data){
+    let str="";
+    for (let user of data){
+        str += "<li onclick='initPrivateChat("+user["userId"]+")'><img src=\""+user["avatar"]+" \" height=\"80%\" width=\"80%\"> <p>"+user["username"]+"</p></li>";
+    }
+    $(".user-detail").html(str);
+}
+
+/**
+ * 点击显示聊天框
+ * @param userId
+ */
+function initPrivateChat(userId){
+    let isTrue = parseInt($('#click_side').attr('value'));
+    if (isTrue === 1) {
+        $('.user-detail>li').css("width", "0px");
+        $('.chat-detail').css("width", "0%");
+        $('#click_side').attr('value', 0);
+    }
+    //表示对象不是群聊
+    isPrivateChat=true;
+    groupChatId=null;
+    toUser=userId;
+    $.ajax({
+        type:"GET",
+        url:"/getUser/"+userId,
+        success:function(data){
+            console.log("get the private success")
+            console.log(data);
+            let str="";
+            str += "<li onclick='initPrivateChat("+data["userId"]+")'><img src=\""+data["avatar"]+" \" height=\"80%\" width=\"80%\"> <p>"+data["username"]+"</p></li>";
+            $(".user-detail").html(str);
+            $(".chat").html("");
+            $(".title-content").html("当前正与"+data["username"]+"聊天");
+            showPreviousPrivateMessage()
+        },
+        async: false
+    });
+};
+
+
+
+function initGroupChat(id,obj){
+    isPrivateChat=false;
+    toUser=null;
+    groupChatId=id;
+    $(".chat").html("");
+    $(".chat-history-list li").removeClass("active");
+    $(obj).addClass("active");
+    showGroupChat();
+    refreshMessage();
+}
+
+/**
+ *
+ */
+function showGroupChat(){
+    let str="";
+    $.ajax({
+        type:"GET",
+        url:"/getGroupChatUserList/"+groupChatId,
+        success:function(data){
+            console.log("get the groupChat success")
+            console.log(data);
+            showPreviousGroupChatMessage();
+            showUserList(data);
+        },
+        async: false
+    });
+}
+
+/**
+ * 显示私聊聊天信息
+ */
+function showPreviousPrivateMessage(){
+    let chatData = sessionStorage.getItem("private"+toUser);
+    if (chatData != null){
+        $(".chat").html(chatData);
+    }
+    refreshMessage();
+}
+
+/**
+ * 显示群聊聊天信息
+ */
+function showPreviousGroupChatMessage(){
+    let chatData=sessionStorage.getItem("group"+groupChatId);
+    if (chatData!=null){
+        $(".chat").html(chatData);
+    }
+}
+
+function showChatDetail() {
+    let isTrue = parseInt($('#click_side').attr('value'));
+    $(function() {
+        if (isTrue === 0) {
+            $('.chat-detail').css("width", "18%");
+            $('.user-detail>li').css("width", "80px");
+            $('#click_side').attr('value', 1);
+        } else {
+            $('.user-detail>li').css("width", "0px");
+            $('.chat-detail').css("width", "0%");
+            $('#click_side').attr('value', 0);
+        }
+        return false;
+    });
+}

@@ -83,7 +83,7 @@
                         <div class="contact-list col-sm-12">
                             <!-- 聊天列表 -->
                             <ul class="chat-history-list list-group ">
-                                <li class="list-group-item list-group-item-action active" onclick="showGroupChat(1,this)" >
+                                <li class="list-group-item list-group-item-action active" onclick="initGroupChat(1,this)" >
                                     <div class="row">
                                         <div class="contact-img col-sm-2">
                                             <img src="/img/default.jpg" width="50px" height="50px" alt="">
@@ -99,7 +99,7 @@
                                         </div>
                                     </div>
                                 </li>
-                                <li class="list-group-item list-group-item-action " onclick="showGroupChat(1,this)">
+                                <li class="list-group-item list-group-item-action " onclick="initGroupChat(1,this)">
                                     <div class="row">
                                         <div class="contact-img col-sm-2">
                                             <img src="/img/default.jpg" width="50px" height="50px" alt="">
@@ -258,34 +258,6 @@
 </body>
 
 <script>
-    function showChatDetail() {
-        var isTrue = parseInt($('#click_side').attr('value'));
-        $(function() {
-            if (isTrue === 0) {
-                $('.chat-detail').css("width", "18%");
-                $('.user-detail>li').css("width", "80px");
-                $('#click_side').attr('value', 1);
-            } else {
-                $('.user-detail>li').css("width", "0px");
-                $('.chat-detail').css("width", "0%");
-                $('#click_side').attr('value', 0);
-            }
-            return false;
-        });
-    }
-
-
-
-
-    //
-    // $(function(){
-    //     /** 验证文件是否导入成功  */
-    //     $(".img-form").ajaxForm(function(data){
-    //         alert(data);
-    //         console.log(JSON.stringify(data));
-    //     });
-    // });
-
 
 
 </script>

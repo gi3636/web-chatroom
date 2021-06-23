@@ -24,6 +24,10 @@ public interface UserDao extends JpaRepository<User,Integer> {
 
     User findUserByUsernameAndPassword(String username,String password);
     User findUserByUsername(String username);
+    User findUserByUserId(Integer userId);
+
+    @Query("select new User(u.userId,u.username,u.avatar) from User u where u.userId=?1")
+    User findUser(Integer userId);
 
     /**
      * 修改图片路径
@@ -37,9 +41,10 @@ public interface UserDao extends JpaRepository<User,Integer> {
     int changeAvatar( String path,Integer userId);
 
     @Transactional // 自定义update、delete、insert 的 Dao 接口必备
-
     @Query("delete from User ")
     void deleteConnectionByUserId(Integer userId);
+
+
 
 
 

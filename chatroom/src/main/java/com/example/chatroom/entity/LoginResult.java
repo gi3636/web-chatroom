@@ -40,4 +40,13 @@ public class LoginResult {
     @Column(name = "ip_addr")
     private String ipAddr;	//ip地址
     private String browser;	//使用浏览器
+
+    public LoginResult(Integer userId, Boolean result, Date loginTime, String loginMessage, String ipAddr, String browser) {
+        this.userId = userId;
+        this.result = result;
+        this.loginTime = loginTime;
+        this.loginMessage = loginMessage;
+        this.ipAddr = ipAddr;
+        this.browser = browser;
+    }
 }

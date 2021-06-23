@@ -25,6 +25,12 @@ public class UserServiceImpl  implements UserService {
     }
 
     @Override
+    public User findOne(Integer userId) {
+        User result = userDao.findUser(userId);
+        return result;
+    }
+
+    @Override
     public int changeAvatarPath(String path, Integer userId) {
         return userDao.changeAvatar(path,userId);
     }
@@ -33,7 +39,6 @@ public class UserServiceImpl  implements UserService {
     public User addGroupChat(GroupChat groupChat) {
         return null;
     }
-
 
     @Override
     public User addAndFlush(User user) {

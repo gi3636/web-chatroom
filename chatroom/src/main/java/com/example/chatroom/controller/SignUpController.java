@@ -40,12 +40,12 @@ public class SignUpController {
         String password=request.getParameter("password");
         String confirmPassword=request.getParameter("confirm_password");
         if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() || !(password.equals(confirmPassword))){
-            System.out.println("用户名:"+username+" 密码:"+password+" 确认密码:"+confirmPassword);
-            System.out.println("资料不完整或密码不一致");
+            log.info("用户名：{}，密码：{}，确认密码：{}，资料不完整或密码不一致",username,password,confirmPassword);
             return false;
         }
         if (userService.findOne(username,password)!=null){
             //做一些业务处理
+            log.info("用户名：{}，密码：{}，确认密码：{}，已存在用户",username,password,confirmPassword);
             return false;
         }
         User user=new User();

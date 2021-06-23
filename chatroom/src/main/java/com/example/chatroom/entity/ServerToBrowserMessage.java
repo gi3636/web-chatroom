@@ -24,16 +24,26 @@ public class ServerToBrowserMessage {
     @Column(name = "server_to_browser_message_id")//定义数据库的列名如果与字段名一样可以省略
     private Integer serverToBrowserMessageId;
 
-    @Column(name = "is_sytem")
-    private boolean isSystem;
-    @Column(name = "group_chat_id")
-    private Integer groupChatId;
-    @Column(name = "from_name")
-    private String fromName;
+    //发送用户
+    @Column(name = "from_user_id")
+    private Integer fromUserId;
 
-    @ElementCollection
-    @Column(name = "to_user")
-    private List<String> toUser;
+    //收到用户
+    @Column(name = "to_user_id")
+    private Integer toUserId;
+
+    //判断是哪个群收到的
+    @Column(name="group_chat_id")
+    private Integer groupChatId;
+
+    //0为系统消息 ; 1为私聊信息 ; 2为群聊信息 ; 3为图片信息 ; 4为文件
+    private Integer type;
+
+    @Column(name = "is_system")
+    private Boolean isSystem;
+
+    @Column(name = "is_private_message")
+    private Boolean isPrivateMessage;
 
     private String message;
 
@@ -41,12 +51,47 @@ public class ServerToBrowserMessage {
     @Column(name = "send_time")
     private Date sendTime;
 
-    public ServerToBrowserMessage(boolean isSystem, Integer groupChatId, String fromName,  List<String> toUser, String message, Date sendTime) {
-        this.isSystem = isSystem;
-        this.groupChatId = groupChatId;
-        this.fromName = fromName;
-        this.toUser = toUser;
+
+    public ServerToBrowserMessage(Integer fromUserId, Integer toUserId, Integer type, String message, Date sendTime) {
+        this.fromUserId = fromUserId;
+        this.toUserId = toUserId;
+        this.type = type;
         this.message = message;
         this.sendTime = sendTime;
     }
+
+
+    public ServerToBrowserMessage(Integer fromUserId, Integer toUserId, Integer groupChatId, Integer type, String message, Date sendTime) {
+        this.fromUserId = fromUserId;
+        this.toUserId = toUserId;
+        this.groupChatId = groupChatId;
+        this.type = type;
+        this.message = message;
+        this.sendTime = sendTime;
+    }
+
+    //群聊信息构造器
+    public ServerToBrowserMessage(Integer fromUserId, Integer toUserId, Integer groupChatId, Integer type, Boolean isSystem, Boolean isPrivateMessage, String message, Date sendTime) {
+        this.fromUserId = fromUserId;
+        this.toUserId = toUserId;
+        this.groupChatId = groupChatId;
+        this.type = type;
+        this.isSystem = isSystem;
+        this.isPrivateMessage = isPrivateMessage;
+        this.message = message;
+        this.sendTime = sendTime;
+    }
+
+    //私人信息构造器
+    public ServerToBrowserMessage(Integer fromUserId, Integer toUserId, Integer type, Boolean isSystem, Boolean isPrivateMessage, String message, Date sendTime) {
+        this.fromUserId = fromUserId;
+        this.toUserId = toUserId;
+        this.type = type;
+        this.isSystem = isSystem;
+        this.isPrivateMessage = isPrivateMessage;
+        this.message = message;
+        this.sendTime = sendTime;
+    }
+
+
 }

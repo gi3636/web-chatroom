@@ -11,6 +11,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.stereotype.Controller;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.*;
 
 
@@ -20,7 +21,7 @@ import java.util.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "tbl_user")
-public class User {
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)//主键选择策略
@@ -52,6 +53,8 @@ public class User {
     @JoinTable(joinColumns = @JoinColumn(name = "user_id"),inverseJoinColumns = @JoinColumn(name = "group_chat_id"))
     @Column(name = "group_chat_list")
     private List<GroupChat> groupChatList=new ArrayList<>();
+
+
 
     public Integer getUserId() {
         return userId;
@@ -107,5 +110,12 @@ public class User {
 
     public void setGroupChatList(List<GroupChat> groupChatList) {
         this.groupChatList = groupChatList;
+    }
+
+
+    public User(Integer userId, String username, String avatar) {
+        this.userId = userId;
+        this.username = username;
+        this.avatar = avatar;
     }
 }

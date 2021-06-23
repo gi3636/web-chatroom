@@ -13,9 +13,4 @@ public class GroupChatController {
     @Autowired
     private GroupChatServiceImpl groupChatService;
 
-    @RequestMapping("/getGroupChat/{id}")
-    @ResponseBody
-    public GroupChat getGroupChat(@PathVariable Integer id){
-        return groupChatService.findOne(id);
-    }
 }
